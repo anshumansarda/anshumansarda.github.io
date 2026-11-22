@@ -12,7 +12,7 @@
   <link rel="icon" type="image/png" href="assets/head.png" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600&family=Geist+Mono:wght@400;500&family=Silkscreen:wght@400;700&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600&family=Geist+Mono:wght@400;500;700&family=Silkscreen:wght@400;700&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="css/style.css" />
 </head>
 <body class="is-loading">
@@ -42,7 +42,30 @@
         <img src="assets/head.png" alt="" width="20" height="20" />
         <span>anshuman sarda</span>
       </a>
-      <p class="mono topbar-right"><span class="dot-live"></span><span id="clock">--:--</span></p>
+      <div class="clock-wrap" id="clock-wrap">
+        <button class="mono topbar-right clock-btn" id="clock-btn" aria-expanded="false" aria-controls="clockpop" aria-label="Show analog clock">
+          <span class="dot-live"></span><span id="clock">--:--</span>
+        </button>
+        <div class="clockpop glass" id="clockpop" role="dialog" aria-label="Analog clock" hidden>
+          <button class="clockpop-x" id="clockpop-x" aria-label="Close clock"><span class="px-x"></span></button>
+          <svg class="gearclock" viewBox="0 0 240 240" aria-hidden="true">
+            <g id="gears"></g>
+            <circle cx="125" cy="125" r="82" fill="#161614" />
+            <circle cx="120" cy="120" r="82" fill="#fffdf7" stroke="#161614" stroke-width="5" />
+            <g id="ticks"></g>
+            <g id="hand-h"><rect x="114.5" y="76" width="11" height="50" fill="#161614" /></g>
+            <g id="hand-m"><rect x="116" y="52" width="8" height="74" fill="#2b2b27" /></g>
+            <g id="hand-s"><rect x="118.5" y="46" width="3" height="92" fill="#ea4a3b" /><rect x="116" y="44" width="8" height="8" fill="#ea4a3b" /></g>
+            <circle cx="120" cy="120" r="11" fill="#161614" />
+            <circle cx="120" cy="120" r="6" fill="#f3b52e" />
+            <circle cx="118" cy="118" r="2" fill="#fff" opacity=".6" />
+          </svg>
+          <div class="clockpop-read">
+            <span class="pixel" id="clock-digital">--:--:--</span>
+            <span class="mono" id="clock-date"></span>
+          </div>
+        </div>
+      </div>
     </header>
 
     <section class="hero">

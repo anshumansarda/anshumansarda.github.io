@@ -1,5 +1,6 @@
 import { paintGlyphs } from "./pixel.js";
 import { initLiquid } from "./liquid.js";
+import { initClock } from "./clock.js";
 
 const $ = (s, r = document) => r.querySelector(s);
 const $$ = (s, r = document) => [...r.querySelectorAll(s)];
@@ -8,6 +9,7 @@ const finePointer = matchMedia("(hover: hover) and (pointer: fine)").matches;
 
 paintGlyphs();
 initLiquid();
+initClock();
 
 /* ---------------- clock + year ---------------- */
 const clock = $("#clock");
