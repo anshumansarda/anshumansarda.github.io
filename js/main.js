@@ -1,6 +1,7 @@
 import { paintGlyphs } from "./pixel.js";
 import { initLiquid } from "./liquid.js";
 import { initClock } from "./clock.js";
+import { initZodiac } from "./zodiac.js";
 
 const $ = (s, r = document) => r.querySelector(s);
 const $$ = (s, r = document) => [...r.querySelectorAll(s)];
@@ -10,6 +11,7 @@ const finePointer = matchMedia("(hover: hover) and (pointer: fine)").matches;
 paintGlyphs();
 initLiquid();
 initClock();
+initZodiac();
 
 /* ---------------- clock + year ---------------- */
 const clock = $("#clock");
@@ -193,6 +195,9 @@ const games = {
   coin: () => import("./games/coin.js"),
   blackjack: () => import("./games/blackjack.js"),
   snake: () => import("./games/snake.js"),
+  roulette: () => import("./games/roulette.js"),
+  slots: () => import("./games/slots.js"),
+  tictactoe: () => import("./games/tictactoe.js"),
 };
 
 function parseHash() {
@@ -273,7 +278,7 @@ const menu = $("#game-menu");
 const stage = $("#game-stage");
 const backBtn = $("[data-game-back]");
 const gamesTitle = $("#t-games");
-const titles = { coin: "Heads or Tails", blackjack: "Blackjack", snake: "Snake" };
+const titles = { coin: "Heads or Tails", blackjack: "Blackjack", snake: "Snake", roulette: "Roulette", slots: "Slots", tictactoe: "Tic Tac Toe+" };
 
 $$(".game-card").forEach((c) => c.addEventListener("click", () => { location.hash = `games/${c.dataset.game}`; }));
 backBtn.addEventListener("click", () => { location.hash = "games"; });

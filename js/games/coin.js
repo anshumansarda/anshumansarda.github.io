@@ -72,7 +72,7 @@ export function mount(root) {
       msg.textContent = `${result === "H" ? "Heads" : "Tails"}. ${won ? pick(lines.win) : pick(lines.lose)}`;
       history.unshift({ r: result, won });
       history.length = Math.min(history.length, 10);
-      hist.innerHTML = history.map((h) => `<i class="${h.won ? "win" : "lose"}">${h.r}</i>`).join("");
+      hist.innerHTML = history.map((h) => `<i class="${h.won ? "h-win" : "h-lose"}">${h.r}</i>`).join("");
       btns.forEach((b) => (b.disabled = false));
       busy = false;
     };

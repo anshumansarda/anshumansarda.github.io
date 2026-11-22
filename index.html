@@ -6,10 +6,22 @@
   <title>Anshuman Sarda</title>
   <meta name="description" content="Anshuman Sarda builds websites and has fun doing it. Three folders: about, games, contact." />
   <meta name="theme-color" content="#f2f1ec" />
+  <!-- link previews (WhatsApp, iMessage, Slack, X…) need absolute URLs -->
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://anshumansarda.github.io/" />
   <meta property="og:title" content="Anshuman Sarda" />
   <meta property="og:description" content="Builds websites. Has fun. Pick a folder." />
-  <meta property="og:image" content="assets/sprite.png" />
-  <link rel="icon" type="image/png" href="assets/head.png" />
+  <meta property="og:image" content="https://anshumansarda.github.io/assets/og.png" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta property="og:image:alt" content="Pixel-art head of Anshuman Sarda" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:image" content="https://anshumansarda.github.io/assets/og.png" />
+  <!-- favicons: square, head only -->
+  <link rel="icon" type="image/png" sizes="32x32" href="assets/favicon-32.png" />
+  <link rel="icon" type="image/png" sizes="192x192" href="assets/favicon-192.png" />
+  <link rel="icon" type="image/png" sizes="512x512" href="assets/favicon-512.png" />
+  <link rel="apple-touch-icon" sizes="180x180" href="assets/apple-touch-icon.png" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600&family=Geist+Mono:wght@400;500;700&family=Silkscreen:wght@400;700&display=swap" rel="stylesheet" />
@@ -158,6 +170,15 @@
         </section>
       </div>
 
+      <section class="about-list about-sign">
+        <div class="zodiac-box" id="zodiac"></div>
+        <div>
+          <h4 class="mono">sign</h4>
+          <div class="sign-name"><span class="sign-glyph" data-glyph="pisces"></span><b>Pisces</b><span>feb 19 – mar 20</span></div>
+          <p>A March Pisces. Water sign, apparently a dreamer. It does explain the habit of starting side projects at 2am.</p>
+        </div>
+      </section>
+
       <section class="about-list">
         <h4 class="mono">things i've done</h4>
         <ol class="timeline">
@@ -205,6 +226,21 @@
             <span class="gc-art gc-snake"><span class="mini-snake" data-glyph="snake"></span></span>
             <span class="gc-name pixel">Snake</span>
             <span class="gc-desc">Eat. Grow. Don't bite yourself.</span>
+          </button>
+          <button class="game-card" data-game="tictactoe">
+            <span class="gc-art gc-ttt"><span class="mini-ttt"><i class="x f">X</i><i></i><i class="o">O</i><i></i><i class="x">X</i><i class="o">O</i><i class="o">O</i><i class="x">X</i><i></i></span></span>
+            <span class="gc-name pixel">Tic Tac Toe+</span>
+            <span class="gc-desc">Three marks each. The oldest one vanishes.</span>
+          </button>
+          <button class="game-card" data-game="roulette">
+            <span class="gc-art gc-roulette"><span class="mini-wheel"></span></span>
+            <span class="gc-name pixel">Roulette</span>
+            <span class="gc-desc">Thirteen pockets. Pick one.</span>
+          </button>
+          <button class="game-card" data-game="slots">
+            <span class="gc-art gc-slots"><span class="mini-slots"><img src="assets/head.png" alt="" /><img src="assets/head.png" alt="" /><img src="assets/head.png" alt="" /></span></span>
+            <span class="gc-name pixel">Slots</span>
+            <span class="gc-desc">Three heads wins a trip to my socials.</span>
           </button>
         </div>
       </div>
