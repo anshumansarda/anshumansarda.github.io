@@ -161,8 +161,7 @@
       <div class="about-grid">
         <section>
           <h4 class="mono">now</h4>
-          <!-- EDIT ME: update with your current role from LinkedIn -->
-          <p>Building things for the web and figuring out the rest as I go.</p>
+          <p>Forward deployed engineer at <a class="ink-link" href="https://databook.com/" target="_blank" rel="noopener">Databook&nbsp;↗</a>. Building things with customers, and websites like this one on the side.</p>
         </section>
         <section>
           <h4 class="mono">from</h4>
@@ -184,7 +183,7 @@
         <ol class="timeline">
           <li><span class="tl-what">Founder, CodeYard</span><span class="tl-note">A small crew of coders building things together.</span></li>
           <li><span class="tl-what">Technical head, Verity Today</span><span class="tl-note">Designed and built the site for a student newsletter read by 7,500+ people a month.</span></li>
-          <li><span class="tl-what">Video editor &amp; project lead, Singh in USA</span><span class="tl-note">Edited for a 400K-subscriber YouTube channel and ran the "Team Study Abroad" interviews.</span></li>
+          <li><span class="tl-what">Video editor &amp; project lead, <a class="ink-link" href="https://www.youtube.com/@SinghinUSA" target="_blank" rel="noopener">Singh in USA&nbsp;↗</a></span><span class="tl-note">Edited for a 1M+ subscriber YouTube channel and ran the "Team Study Abroad" interviews.</span></li>
           <li><span class="tl-what">Web development intern, 32Bytes</span><span class="tl-note">Where I first shipped code for someone other than me.</span></li>
         </ol>
       </section>
@@ -192,8 +191,62 @@
       <section class="about-list">
         <h4 class="mono">things i like</h4>
         <ul class="tags">
-          <li>building websites</li><li>tiny details</li><li>good fonts</li><li>piano</li><li>editing videos</li><li>little games</li><li>starting side projects</li>
+          <li style="--ic:#161614"><span class="tag-ico" data-glyph="pool"></span>8 ball pool</li>
+          <li style="--ic:#ea4a3b"><span class="tag-ico" data-glyph="pingpong"></span>table tennis</li>
+          <li style="--ic:#c98a0f"><span class="tag-ico" data-glyph="ticket"></span>concerts &amp; events</li>
+          <li style="--ic:#3e7bf0"><span class="tag-ico" data-glyph="eq"></span>techno / house</li>
+          <li style="--ic:#161614"><span class="tag-ico" data-glyph="vinyl"></span>djing, sometimes</li>
+          <li style="--ic:#ea4a3b"><span class="tag-ico" data-glyph="pad"></span>little games</li>
+          <li style="--ic:#2f9e5b"><span class="tag-ico" data-glyph="fonts"></span>good fonts</li>
         </ul>
+      </section>
+
+      <section class="about-list dj">
+        <div class="dj-copy">
+          <h4 class="mono">dj, sometimes</h4>
+          <p>Techno and house, mostly. Press play.</p>
+          <button class="px-btn dj-play" id="dj-play" aria-pressed="false"><span class="dj-play-ico"></span><span class="dj-play-label">Play</span></button>
+        </div>
+        <div class="dj-deck" id="dj-deck" aria-hidden="true">
+          <svg viewBox="0 0 280 130">
+            <rect x="6" y="8" width="270" height="118" rx="14" fill="#161614"/>
+            <rect x="2" y="4" width="270" height="118" rx="14" fill="#2b2b27" stroke="#161614" stroke-width="3"/>
+            <rect x="8" y="10" width="258" height="6" rx="3" fill="rgba(255,255,255,.08)"/>
+            <!-- left deck -->
+            <g class="dj-platter" style="transform-origin:62px 66px">
+              <circle cx="62" cy="66" r="44" fill="#161614"/>
+              <circle cx="62" cy="66" r="40" fill="#1f1f1d"/>
+              <circle cx="62" cy="66" r="33" fill="none" stroke="#2f2f2c" stroke-width="2"/>
+              <circle cx="62" cy="66" r="26" fill="none" stroke="#2f2f2c" stroke-width="2"/>
+              <circle cx="62" cy="66" r="14" fill="#3e7bf0"/>
+              <rect x="58" y="54" width="8" height="5" fill="#fffdf7" opacity=".9"/>
+              <circle cx="62" cy="66" r="3" fill="#fffdf7"/>
+            </g>
+            <g class="dj-arm dj-arm-l"><rect x="104" y="18" width="5" height="40" fill="#b9b6ae" stroke="#161614" stroke-width="1.5"/><rect x="100" y="56" width="12" height="9" fill="#ea4a3b" stroke="#161614" stroke-width="1.5"/><circle cx="106" cy="18" r="6" fill="#77746d" stroke="#161614" stroke-width="1.5"/></g>
+            <!-- mixer -->
+            <rect x="118" y="16" width="44" height="98" rx="6" fill="#ecebe5" stroke="#161614" stroke-width="2.5"/>
+            <g class="dj-vu dj-vu-l"></g>
+            <g class="dj-vu dj-vu-r"></g>
+            <rect x="128" y="72" width="4" height="26" fill="#161614"/>
+            <rect x="148" y="72" width="4" height="26" fill="#161614"/>
+            <rect class="dj-fader dj-fader-l" x="124" y="80" width="12" height="7" fill="#f3b52e" stroke="#161614" stroke-width="1.5"/>
+            <rect class="dj-fader dj-fader-r" x="144" y="76" width="12" height="7" fill="#f3b52e" stroke="#161614" stroke-width="1.5"/>
+            <rect x="126" y="104" width="28" height="3" fill="#161614"/>
+            <rect class="dj-xfade" x="135" y="100" width="10" height="11" fill="#fffdf7" stroke="#161614" stroke-width="1.5"/>
+            <!-- right deck -->
+            <g class="dj-platter dj-platter-r" style="transform-origin:218px 66px">
+              <circle cx="218" cy="66" r="44" fill="#161614"/>
+              <circle cx="218" cy="66" r="40" fill="#1f1f1d"/>
+              <circle cx="218" cy="66" r="33" fill="none" stroke="#2f2f2c" stroke-width="2"/>
+              <circle cx="218" cy="66" r="26" fill="none" stroke="#2f2f2c" stroke-width="2"/>
+              <circle cx="218" cy="66" r="14" fill="#ea4a3b"/>
+              <rect x="214" y="54" width="8" height="5" fill="#fffdf7" opacity=".9"/>
+              <circle cx="218" cy="66" r="3" fill="#fffdf7"/>
+            </g>
+            <g class="dj-arm dj-arm-r"><rect x="260" y="18" width="5" height="40" fill="#b9b6ae" stroke="#161614" stroke-width="1.5"/><rect x="256" y="56" width="12" height="9" fill="#3e7bf0" stroke="#161614" stroke-width="1.5"/><circle cx="262" cy="18" r="6" fill="#77746d" stroke="#161614" stroke-width="1.5"/></g>
+            <circle class="dj-led" cx="140" cy="24" r="3" fill="#77746d"/>
+          </svg>
+        </div>
       </section>
 
       <p class="about-out mono">more on <a href="https://www.linkedin.com/in/anshumansarda" target="_blank" rel="noopener">linkedin ↗</a></p>
@@ -240,7 +293,7 @@
           <button class="game-card" data-game="slots">
             <span class="gc-art gc-slots"><span class="mini-slots"><img src="assets/head.png" alt="" /><img src="assets/head.png" alt="" /><img src="assets/head.png" alt="" /></span></span>
             <span class="gc-name pixel">Slots</span>
-            <span class="gc-desc">Three heads wins a trip to my socials.</span>
+            <span class="gc-desc">Line up three heads. Win… something.</span>
           </button>
         </div>
       </div>

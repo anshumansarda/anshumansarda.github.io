@@ -13,7 +13,7 @@ export function mount(root) {
       <canvas class="snake-canvas" aria-label="Snake game board"></canvas>
       <div class="snake-overlay">
         <p data-k="title">Snake</p>
-        <small data-k="hint">arrows or wasd · space to pause</small>
+        <small data-k="hint">arrows or wasd · edges wrap around</small>
         <button class="px-btn primary" data-act="start">Play</button>
       </div>
     </div>
@@ -29,12 +29,13 @@ export function mount(root) {
   const overlay = root.querySelector(".snake-overlay");
   const k = (n) => root.querySelector(`[data-k="${n}"]`);
   const isTouch = matchMedia("(hover: none) and (pointer: coarse)").matches;
-  if (isTouch) k("hint").textContent = "swipe or use the pad";
+  if (isTouch) k("hint").textContent = "swipe or use the pad · edges wrap around";
 
   let best = store.get("snake-best", 0);
   k("best").textContent = best;
 
   let snake, dir, queue, food, score, running = false, paused = false, dead = false;
+  let portal = null; // last wrap, for the edge flash
   let last = 0, acc = 0, raf = 0, step = 130;
   let cell = 20;
 
@@ -74,11 +75,15 @@ export function mount(root) {
 
   function update() {
     if (queue.length) dir = queue.shift();
-    const head = { x: snake[0].x + dir.x, y: snake[0].y + dir.y };
-    const hitWall = head.x < 0 || head.y < 0 || head.x >= N || head.y >= N;
+    let head = { x: snake[0].x + dir.x, y: snake[0].y + dir.y };
+    // no walls: leave one side, come back on the other
+    if (head.x < 0 || head.y < 0 || head.x >= N || head.y >= N) {
+      portal = dir.x !== 0 ? { axis: "x", line: head.y, t: performance.now() } : { axis: "y", line: head.x, t: performance.now() };
+      head = { x: (head.x + N) % N, y: (head.y + N) % N };
+    }
     const ate = food && head.x === food.x && head.y === food.y;
     const body = ate ? snake : snake.slice(0, -1);
-    if (hitWall || body.some((s) => s.x === head.x && s.y === head.y)) return gameOver();
+    if (body.some((s) => s.x === head.x && s.y === head.y)) return gameOver();
     snake.unshift(head);
     if (ate) {
       score++;
@@ -108,6 +113,29 @@ export function mount(root) {
     // checker
     for (let y = 0; y < N; y++) for (let x = 0; x < N; x++)
       if ((x + y) % 2) px(x * c, y * c, c, c, "#e1e6db");
+    // the edges are portals: soft dashes all round instead of a wall
+    const dash = Math.max(2, Math.floor(c / 3));
+    for (let i = 0; i < N; i++) {
+      const o = i * c + (c - dash) / 2;
+      px(o, 0, dash, p, "rgba(62,123,240,.35)");
+      px(o, canvas.height - p, dash, p, "rgba(62,123,240,.35)");
+      px(0, o, p, dash, "rgba(62,123,240,.35)");
+      px(canvas.width - p, o, p, dash, "rgba(62,123,240,.35)");
+    }
+    // flash both ends of the row/column the snake just wrapped through
+    if (portal) {
+      const age = (performance.now() - portal.t) / 650;
+      if (age < 1) {
+        const a = 1 - age, g = `rgba(62,123,240,${a.toFixed(3)})`, depth = p * 4;
+        if (portal.axis === "x") {
+          px(0, portal.line * c, depth, c, g);
+          px(canvas.width - depth, portal.line * c, depth, c, g);
+        } else {
+          px(portal.line * c, 0, c, depth, g);
+          px(portal.line * c, canvas.height - depth, c, depth, g);
+        }
+      } else portal = null;
+    }
     // food (pixel apple)
     if (food) {
       const fx = food.x * c, fy = food.y * c;
@@ -121,15 +149,20 @@ export function mount(root) {
     snake.forEach((s, i) => {
       const x = s.x * c, y = s.y * c;
       const shade = i === 0 ? "#161614" : i % 2 ? "#2b2b27" : "#33332e";
-      px(x + p, y + p, c - p * 2, c - p * 2, dead ? "#8a8780" : shade);
-      // join to next segment so the body reads as one line
-      const n = snake[i + 1];
-      if (n) {
-        if (n.x < s.x) px(x - p, y + p, p * 2, c - p * 2, dead ? "#8a8780" : shade);
-        if (n.x > s.x) px(x + c - p, y + p, p * 2, c - p * 2, dead ? "#8a8780" : shade);
-        if (n.y < s.y) px(x + p, y - p, c - p * 2, p * 2, dead ? "#8a8780" : shade);
-        if (n.y > s.y) px(x + p, y + c - p, c - p * 2, p * 2, dead ? "#8a8780" : shade);
-      }
+      const col = dead ? "#8a8780" : shade;
+      px(x + p, y + p, c - p * 2, c - p * 2, col);
+      // join to the segments either side so the body reads as one line,
+      // including across a wrap (the join then runs to the board edge)
+      [snake[i - 1], snake[i + 1]].forEach((n) => {
+        if (!n) return;
+        let dx = n.x - s.x, dy = n.y - s.y;
+        if (Math.abs(dx) > 1) dx = -Math.sign(dx);
+        if (Math.abs(dy) > 1) dy = -Math.sign(dy);
+        if (dx < 0) px(x, y + p, p, c - p * 2, col);
+        if (dx > 0) px(x + c - p, y + p, p, c - p * 2, col);
+        if (dy < 0) px(x + p, y, c - p * 2, p, col);
+        if (dy > 0) px(x + p, y + c - p, c - p * 2, p, col);
+      });
     });
     // eyes
     const h = snake[0];

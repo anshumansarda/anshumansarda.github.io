@@ -2,6 +2,7 @@ import { paintGlyphs } from "./pixel.js";
 import { initLiquid } from "./liquid.js";
 import { initClock } from "./clock.js";
 import { initZodiac } from "./zodiac.js";
+import { initDJ } from "./dj.js";
 
 const $ = (s, r = document) => r.querySelector(s);
 const $$ = (s, r = document) => [...r.querySelectorAll(s)];
@@ -12,6 +13,7 @@ paintGlyphs();
 initLiquid();
 initClock();
 initZodiac();
+initDJ();
 
 /* ---------------- clock + year ---------------- */
 const clock = $("#clock");
