@@ -1,486 +1,220 @@
 <!doctype html>
-
 <html lang="en">
-   
-   
-    <head>
-       
-       
-        <!-- META -->
-        <meta charset="utf-8">
-        <meta name="robots" content="noodp">
-        <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
-       
-        <!-- PAGE TITLE -->
-        <title>Anshuman $arda</title>
-       
-        <!-- FAVICON -->
-        <link rel="shortcut icon" href="assets/img/favicon.png">
-       
-        <!-- FONTS -->
-        <link href="https://fonts.googleapis.com/css?family=Abril+Fatface%7CArapey&amp;subset=latin-ext" rel="stylesheet">
-       
-        <!-- STYLESHEETS -->
-        <link rel="stylesheet" type="text/css" href="assets/css/plugins.css">
-        <link rel="stylesheet" type="text/css" href="assets/css/main.css">
-        
-        
-    </head>
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <title>Anshuman Sarda</title>
+  <meta name="description" content="Anshuman Sarda builds websites and has fun doing it. Three folders: about, games, contact." />
+  <meta name="theme-color" content="#f2f1ec" />
+  <meta property="og:title" content="Anshuman Sarda" />
+  <meta property="og:description" content="Builds websites. Has fun. Pick a folder." />
+  <meta property="og:image" content="assets/sprite.png" />
+  <link rel="icon" type="image/png" href="assets/head.png" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600&family=Geist+Mono:wght@400;500&family=Silkscreen:wght@400;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body class="is-loading">
+  <!-- SVG filters for the liquid glass refraction (filled in by js/liquid.js) -->
+  <svg id="fx" width="0" height="0" aria-hidden="true" style="position:absolute"></svg>
 
-   
-    <body>
-    
-       
-        <!-- PRELOADER -->
-        <div class="preloader">
-           
-            <div class="spinner"></div>
-            
+  <!-- ============ LOADER ============ -->
+  <div id="loader" aria-live="polite">
+    <div class="ld-top">
+      <p class="pixel ld-word">Loading</p>
+      <div class="ld-bar" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0">
+        <span class="ld-fill"></span>
+      </div>
+      <p class="mono ld-pct"><span id="pct">0</span>%</p>
+    </div>
+    <div class="ld-walker">
+      <img src="assets/sprite.png" alt="" class="sprite" width="133" height="384" />
+      <span class="sprite-shadow"></span>
+    </div>
+    <p class="mono ld-skip">press any key to skip</p>
+  </div>
+
+  <!-- ============ DESK ============ -->
+  <main id="desk">
+    <header class="topbar">
+      <a class="chip glass" href="#" aria-label="Home">
+        <img src="assets/head.png" alt="" width="20" height="20" />
+        <span>anshuman sarda</span>
+      </a>
+      <p class="mono topbar-right"><span class="dot-live"></span><span id="clock">--:--</span></p>
+    </header>
+
+    <section class="hero">
+      <h1 class="pixel hero-name" aria-label="Anshuman Sarda">
+        <span>Anshuman</span> <span>Sarda</span>
+      </h1>
+      <p class="hero-sub">builds websites, mostly for fun. pick a folder.</p>
+    </section>
+
+    <div class="stage" aria-hidden="true">
+      <div class="walker" id="walker">
+        <div class="walker-flip">
+          <img src="assets/sprite.png" alt="" class="sprite" width="133" height="384" />
         </div>
-        <!-- /PRELOADER -->
-    
-        
-        <!-- IMAGE CONTAINER -->
-        <div class="image-container">
-           
-            <div class="background-img"></div>
+        <span class="sprite-shadow"></span>
+      </div>
+    </div>
 
+    <nav class="folders" aria-label="Folders">
+      <button class="folder" data-open="about" style="--c:#3e7bf0;--c2:#2856b8;--ct:#2b5fd0">
+        <span class="f-body">
+          <span class="f-back"></span>
+          <span class="f-paper f-paper-1"><i></i><i></i><i></i></span>
+          <span class="f-paper f-paper-2"><i></i><i></i></span>
+          <span class="f-front lq" data-lq="folder"><span class="f-sheen"></span><span class="f-glyph" data-glyph="smile"></span></span>
+        </span>
+        <span class="f-ground"></span>
+        <span class="f-label pixel"><kbd>1</kbd> About me</span>
+      </button>
+      <button class="folder" data-open="games" style="--c:#ea4a3b;--c2:#b42d22;--ct:#cf3a2c">
+        <span class="f-body">
+          <span class="f-back"></span>
+          <span class="f-paper f-paper-1"><i></i><i></i><i></i></span>
+          <span class="f-paper f-paper-2"><i></i><i></i></span>
+          <span class="f-front lq" data-lq="folder"><span class="f-sheen"></span><span class="f-glyph" data-glyph="pad"></span></span>
+        </span>
+        <span class="f-ground"></span>
+        <span class="f-label pixel"><kbd>2</kbd> Games</span>
+      </button>
+      <button class="folder" data-open="contact" style="--c:#f3b52e;--c2:#c98a0f;--ct:#b07a08">
+        <span class="f-body">
+          <span class="f-back"></span>
+          <span class="f-paper f-paper-1"><i></i><i></i><i></i></span>
+          <span class="f-paper f-paper-2"><i></i><i></i></span>
+          <span class="f-front lq" data-lq="folder"><span class="f-sheen"></span><span class="f-glyph" data-glyph="mail"></span></span>
+        </span>
+        <span class="f-ground"></span>
+        <span class="f-label pixel"><kbd>3</kbd> Contact</span>
+      </button>
+    </nav>
+
+    <footer class="foot mono">© <span id="year">2026</span> anshuman sarda · made by hand, mostly</footer>
+  </main>
+
+  <!-- ============ WINDOWS ============ -->
+  <div id="scrim" hidden></div>
+
+  <!-- About -->
+  <section class="win lq" id="win-about" data-lq="win" role="dialog" aria-modal="true" aria-labelledby="t-about" hidden>
+    <header class="win-bar">
+      <span class="win-icon" style="--c:#3e7bf0"></span>
+      <h2 class="pixel" id="t-about">About me</h2>
+      <button class="win-close" aria-label="Close" data-close>
+        <span class="px-x"></span>
+      </button>
+    </header>
+    <div class="win-body about">
+      <div class="about-intro">
+        <div>
+          <p class="eyebrow mono">hello</p>
+          <h3 class="about-hi">Hi, I'm Anshuman.</h3>
+          <p class="lede">I build websites, mostly because it's fun. My favourite place to be is somewhere between a blank file and a thing that actually works.</p>
+          <p>I like the small stuff: a hover that feels right, type that sits well, a page that loads before you notice. This site is a good example. Three folders, a tiny version of me, and a few games because why not.</p>
         </div>
-        <!-- /IMAGE CONTAINER -->
-
-
-        <!-- CONTENT AREA -->
-        <div class="content-area">
-
-
-            <!-- CONTENT AREA INNER --> 
-            <div class="content-area-inner">
-
-
-                <!-- INTRO -->
-                <section id="intro">
-
-
-                    <!-- CONTAINER MID -->
-                    <div class="container-mid">
-
-                       
-                        <!-- ANIMATION CONTAINER -->
-                        <div class="animation-container animation-fade-down" data-animation-delay="0">
-                        
-                            <h1>I’m Anshuman Sarda,</h1>
-                        
-                        </div>
-                        <!-- /ANIMATION CONTAINER -->
-                        
-                        
-                        <!-- ANIMATION CONTAINER -->
-                        <div class="animation-container animation-fade-left" data-animation-delay="300">
-                           
-                            <p class="subline">Hey! I am a high school senior in India. I love endorsing in STEM and Research. 
-                    I am a website developer, UI/UX designer, entrepreneur and a student. I enjoy leadership positions.</p>
-                            
-                        </div>
-                        <!-- /ANIMATION CONTAINER -->
-                        
-                        
-                        <!-- ANIMATION CONTAINER -->
-                        <div class="animation-container animation-fade-up" data-animation-delay="600">
-                           <br>
-                            <a href="#about" class="smooth-scroll">Scroll to know more about me<i class="fa fa-angle-down" aria-hidden="true"></i></a>
-                            
-                        </div>
-                        <!-- /ANIMATION CONTAINER -->
-
-
-                    </div>
-                    <!-- /CONTAINER MID -->
-
-
-                </section>
-                <!-- /INTRO -->
-
-
-                <!-- ABOUT -->
-                <section id="about">
-
-
-                    <h3 class="headline scroll-animated-from-right">More about me :)</h3>
-                    
-                    <p class="scroll-animated-from-right"><p>
-                    <b>School:</b><a href="https://bhs-senior.birlahighschool.com"> Birla High School '2021 </a>
-                        <BR>
-                            <b>University:</b> <a href="https://denison.edu"> Denison University '2025 </a>
-                        <BR>
-                    <b>City:</b> Kolkata, West Bengal
-                            <BR>
-                    <b>Date of Birth:</b> 17th March, 2004 (I am 17, haha)
-                                
-                    </p></p>
-
-                    <p class="scroll-animated-from-right">All in all, I am a very versatile person with interests ranging from web development to entrepreneruship and financial economics. I aim to become a leader in the global technology industry.
-                    <br> <br> I'm happy to connect, listen and help. Let's work together and build something awesome.
-                        <br> <a href="mailto:anshumansarda17@gmail.com">Email Me</a></p>
-                            <br>
-                            <button class="form-control scroll-animated-from-right"><a href="anshumansarda resume.pdf">Download Resume</a></button>
-
-
-                </section>
-                <!-- /ABOUT -->
-                
-                
-                <!-- SERVICE
-                <section id="service">
-
-
-                    <h3 class="headline scroll-animated-from-right">Skills.</h3>
-                    
-                    
-                    <!-- SERVICE LIST 
-                    <ul class="services-list">
-                       
-                       
-                        <li class="scroll-animated-from-right"><i class="fa fa-pencil-square-o" aria-hidden="true"></i>Concept & Strategy</li>
-                        <li class="scroll-animated-from-right"><i class="fa fa-eye" aria-hidden="true"></i>Financial Economics</li>
-                        <li class="scroll-animated-from-right"><i class="fa fa-database" aria-hidden="true"></i>Entrepreneurship</li>
-                        <li class="scroll-animated-from-right"><i class="fa fa-television" aria-hidden="true"></i>Web Design</li>
-                        <li class="scroll-animated-from-right"><i class="fa fa-square-o" aria-hidden="true"></i>UI & UX Design</li>
-                        
-                        
-                    </ul>
-                    <!-- /SERVICE LIST -->
-
-
-                </section>
-                <!-- /SERVICE -->
-                
-                
-                <!-- WORK -->
-                <section id="work">
-
-
-                    <h3 class="headline scroll-animated-from-right">Projects/Work:</h3>
-                    
-                    
-                    <!-- SHOWCASE -->
-                    <div class="showcase">
-                       
-                       
-                        <!-- ITEM -->
-                        <div class="item scroll-animated-from-right">
-                          
-                          
-                            <!-- LIGHTBOX LINK -->
-                            <a href="#" data-featherlight="#item-1-lightbox">
-                            
-                            
-                                <!-- INFO -->
-                                <div class="info">
-
-
-                                    <!-- CONTAINER MID -->
-                                    <div class="container-mid">
-
-                                        <h5>Singh in USA (YouTube)</h5>
-                                        <p>Project Lead, Team Study Abroad</p>
-                                        <p>Video Editor</p>
-
-                                    </div>
-                                    <!-- /CONTAINER MID -->
-
-
-                                </div>
-                                <!-- /INFO -->
-
-
-                                <div class="background-image" style="background-image: url(assets/img/work/item-1.jpg)"></div>
-
-                           
-                            </a>
-                            <!-- /LIGHTBOX LINK -->
-                            
-                            
-                            <!-- LIGHTBOX -->
-                            <div id="item-1-lightbox" class="work-lightbox">
-                               
-                               
-                                <img class="img-responsive" src="assets/img/work/item-1.jpg" alt="image">
-                                
-                                <h3>Singh in USA</h3>
-                                <p class="subline">YouTube</p>
-                                
-                                <p>Worked under a content creator on YouTube with over 400K subscribers & 4.5M views per month. Edited video using Final Cut Pro X. Project lead of "Team Study Abroad"- interviewed students of various universities and spread awareness about educational opportunities around the world.
-                                
-                                <br>
-                                <a href="https://www.youtube.com/c/SinghinUSA/about">View YouTube Channel</a></p>
-                                
-                                
-                            </div>
-                            <!-- /LIGHTBOX -->
-                            
-                            
-                        </div>
-                        <!-- /ITEM -->
-                        
-                        
-                        <!-- ITEM -->
-                        <div class="item scroll-animated-from-right">
-                          
-                          
-                            <!-- LIGHTBOX LINK -->
-                            <a href="#" data-featherlight="#item-2-lightbox">
-                            
-                            
-                                <!-- INFO -->
-                                <div class="info">
-
-
-                                    <!-- CONTAINER MID -->
-                                    <div class="container-mid">
-
-                                        <h5>Verity Today</h5>
-                                        <p>Technical Head (HOD)</p>
-
-                                    </div>
-                                    <!-- /CONTAINER MID -->
-
-
-                                </div>
-                                <!-- /INFO -->
-
-
-                                <div class="background-image" style="background-image: url(assets/img/work/item-2.jpg)"></div>
-
-                           
-                            </a>
-                            <!-- /LIGHTBOX LINK -->
-                            
-                            
-                            <!-- LIGHTBOX -->
-                            <div id="item-2-lightbox" class="work-lightbox">
-                               
-                               
-                                <img class="img-responsive" src="assets/img/work/item-2.jpg" alt="image">
-                                
-                                <h3>Verity Today</h3>
-                                <p class="subline">Technical Head (HOD)</p>
-                                
-                                <p>Student run online newletter with more than 7500 unique monthly readers. Designed and coded prototypes and final form of the website using HTML, CSS, JavaScript and PHP totalling 65,000 lines of xcode </p>
-                                <a href="https://www.veritytoday.com">Visit the Website</a>
-                                
-                            </div>
-                            <!-- /LIGHTBOX -->
-                            
-                            
-                        </div>
-                        <!-- /ITEM -->
-                        
-                        
-                        <!-- ITEM -->
-                        <div class="item scroll-animated-from-right">
-                          
-                          
-                            <!-- LIGHTBOX LINK -->
-                            <a href="#" data-featherlight="#item-3-lightbox">
-                            
-                            
-                                <!-- INFO -->
-                                <div class="info">
-
-
-                                    <!-- CONTAINER MID -->
-                                    <div class="container-mid">
-
-                                        <h5>CodeYard</h5>
-                                        <p>Founder, Creative Director</p>
-
-                                    </div>
-                                    <!-- /CONTAINER MID -->
-
-
-                                </div>
-                                <!-- /INFO -->
-
-
-                                <div class="background-image" style="background-image: url(assets/img/work/item-3.jpg)"></div>
-
-                           
-                            </a>
-                            <!-- /LIGHTBOX LINK -->
-                            
-                            
-                            <!-- LIGHTBOX -->
-                            <div id="item-3-lightbox" class="work-lightbox">
-                               
-                               
-                                <img class="img-responsive" src="assets/img/work/item-3.jpg" alt="image">
-                                
-                                <h3>CodeYard</h3>
-                                <p class="subline">Encrypting Thoughts into Solutions</p>
-                                
-                                <p>CodeYard is a group of coders who are currently working on undisclosed projects. It is a secretive society. Joining the community is possible only if approached by us. </p>
-                                
-                                
-                            </div>
-                            <!-- /LIGHTBOX -->
-                            
-                            
-                        </div>
-                        <!-- /ITEM -->
-                        
-                        
-                        <!-- ITEM -->
-                        <div class="item scroll-animated-from-right">
-                          
-                          
-                            <!-- LIGHTBOX LINK -->
-                            <a href="#" data-featherlight="#item-4-lightbox">
-                            
-                            
-                                <!-- INFO -->
-                                <div class="info">
-
-
-                                    <!-- CONTAINER MID -->
-                                    <div class="container-mid">
-
-                                        <h5>Other Achievements</h5>
-                                        
-
-                                    </div>
-                                    <!-- /CONTAINER MID -->
-
-
-                                </div>
-                                <!-- /INFO -->
-
-
-                                <div class="background-image" style="background-image: url(assets/img/work/item-4.jpg)"></div>
-
-                           
-                            </a>
-                            <!-- /LIGHTBOX LINK -->
-                            
-                            
-                            <!-- LIGHTBOX -->
-                            <div id="item-4-lightbox" class="work-lightbox">
-                               
-                               
-                                <img class="img-responsive" src="assets/img/work/item-4.jpg" alt="image">
-                                
-                                <h3>Other Achivements</h3>
-                                <p class="subline">Just a few, please check resume for all</p>
-                                
-                                <p>Maheshwari Sabha Award for excellent performance in class X Board Examinations (94.2%)</p>
-                                <p>Graphic Designer, Passion Patch</p>
-                                <p>Website Development Intern, 32Bytes</p>
-                                <p>IIT Kharagpur teenage prodigy award for SOF-Khitij 2017</p>
-                                <p>First in Social Media marketing competition in Exebit'20 held by LSA, Kolkata</p>
-                                <p>Executive Officer, Odyssey 2019</p>
-                                <p>Technical Head, Cheerio 2019</p>
-                                <p>Designer, Editorial Board, The Banyan Tree (Birla High School Annual Magazine) 2018 and 2019</p>
-                                <p>92% in Piano Exam by Akhil Bhartiya Sansad (Music School)</p>
-                                
-                                
-                            </div>
-                            <!-- /LIGHTBOX -->
-                            
-                            
-                        </div>
-                        <!-- /ITEM -->
-                        
-                        
-                    </div>
-                    <!-- /SHOWCASE -->
-
-
-                </section>
-                <!-- /WORK -->
-                
-                
-                <!-- CONTACT -->
-                <section id="contact">
-
-
-                    <h3 class="headline scroll-animated-from-right">Contact Me.</h3>
-                    
-                    
-                    <!-- CONTACT LIST -->
-                    <ul class="contact-list">
-                       
-                        <li class="scroll-animated-from-right">
-                        <li class="scroll-animated-from-right"><i class="fa fa-envelope-o" aria-hidden="true"></i>anshumansarda17@gmail.com</li>
-                        
-                    </ul>
-                    <!-- /CONTACT LIST -->
-                    
-                    
-                    <!-- CONTACT FORM --> 
-                    <form id="contact-form" action="assets/php/contact.php" method="post">
-
-                       
-                        <input id="contact-form-name" type="text" name="name" class="form-control scroll-animated-from-right" placeholder="* Your Name">
-                        
-                        <input id="contact-form-email" type="text" name="email" class="form-control scroll-animated-from-right" placeholder="* Your Email">
-                        
-                        <!-- PHANTOM ELEMENT ( HONEYPOT CAPTCHA FOR SECURITY ) -->
-                        <div class="fhp-input"><input id="contact-form-company" type="text" name="company" class="form-control"></div>
-                        <!-- /PHANTOM ELEMENT ( HONEYPOT CAPTCHA FOR SECURITY ) -->
-                        
-                        <textarea id="contact-form-message" name="message" class="form-control scroll-animated-from-right" placeholder="* Your Message"></textarea>
-                        
-                        <button type="submit" class="form-control scroll-animated-from-right">Send Mail</button>
-                        
-                        <div class="success-message">* The Email was Sent Successfully!</div>
-
-                   
-                    </form>
-                    <!-- /CONTACT FORM --> 
-
-
-                </section>
-                <!-- /CONTACT -->
-                
-                
-                <!-- FOOTER -->
-                <section id="footer">
-                
-                   
-                    <!-- SOCIAL ICONS -->
-                    <ul class="social-icons scroll-animated-from-right">
-                       
-                       
-                        <li><a href="https://www.facebook.com/anshuman.sarda.9/"><i class="fa fa-facebook" aria-hidden="true"></i></a></li>
-                        <li><a href="https://twitter.com/AnshumanSarda"><i class="fa fa-twitter" aria-hidden="true"></i></a></li>
-                        <li><a href="https://www.instagram.com/anshuman_Sarda"><i class="fa fa-instagram" aria-hidden="true"></i></a></li>
-                        
-                        
-                        
-                    </ul>
-                    <!-- /SOCIAL ICONS -->
-                    
-
-                    <p class="scroll-animated-from-right">© 2021 Anshuman Sarda | Design by <a href="https://www.instagram.com/anshuman_sarda"> a$ </a></p>
-
-
-                </section>
-                <!-- /FOOTER -->
-
-
-            </div>
-            <!-- /CONTENT AREA INNER -->
-
-
+        <figure class="polaroid" tabindex="0">
+          <span class="photo"><img src="assets/me.jpg" alt="Anshuman Sarda, smiling, in a navy suit" loading="lazy" width="1024" height="1024" /></span>
+          <figcaption class="mono">the non-pixel version</figcaption>
+        </figure>
+      </div>
+
+      <div class="about-grid">
+        <section>
+          <h4 class="mono">now</h4>
+          <!-- EDIT ME: update with your current role from LinkedIn -->
+          <p>Building things for the web and figuring out the rest as I go.</p>
+        </section>
+        <section>
+          <h4 class="mono">from</h4>
+          <p>Grew up in Kolkata. Went to Birla High School, then Denison University in Ohio.</p>
+        </section>
+      </div>
+
+      <section class="about-list">
+        <h4 class="mono">things i've done</h4>
+        <ol class="timeline">
+          <li><span class="tl-what">Founder, CodeYard</span><span class="tl-note">A small crew of coders building things together.</span></li>
+          <li><span class="tl-what">Technical head, Verity Today</span><span class="tl-note">Designed and built the site for a student newsletter read by 7,500+ people a month.</span></li>
+          <li><span class="tl-what">Video editor &amp; project lead, Singh in USA</span><span class="tl-note">Edited for a 400K-subscriber YouTube channel and ran the "Team Study Abroad" interviews.</span></li>
+          <li><span class="tl-what">Web development intern, 32Bytes</span><span class="tl-note">Where I first shipped code for someone other than me.</span></li>
+        </ol>
+      </section>
+
+      <section class="about-list">
+        <h4 class="mono">things i like</h4>
+        <ul class="tags">
+          <li>building websites</li><li>tiny details</li><li>good fonts</li><li>piano</li><li>editing videos</li><li>little games</li><li>starting side projects</li>
+        </ul>
+      </section>
+
+      <p class="about-out mono">more on <a href="https://www.linkedin.com/in/anshumansarda" target="_blank" rel="noopener">linkedin ↗</a></p>
+    </div>
+  </section>
+
+  <!-- Games -->
+  <section class="win lq" id="win-games" data-lq="win" role="dialog" aria-modal="true" aria-labelledby="t-games" hidden>
+    <header class="win-bar">
+      <button class="win-back" data-game-back aria-label="Back to games" hidden><span class="px-arrow"></span></button>
+      <span class="win-icon" style="--c:#ea4a3b"></span>
+      <h2 class="pixel" id="t-games">Games</h2>
+      <button class="win-close" aria-label="Close" data-close><span class="px-x"></span></button>
+    </header>
+    <div class="win-body games">
+      <div class="game-menu" id="game-menu">
+        <p class="games-note">Nothing serious in here. Pick one.</p>
+        <div class="game-cards">
+          <button class="game-card" data-game="coin">
+            <span class="gc-art gc-coin"><span class="mini-coin pixel">H</span></span>
+            <span class="gc-name pixel">Heads or Tails</span>
+            <span class="gc-desc">Call it. Build a streak.</span>
+          </button>
+          <button class="game-card" data-game="blackjack">
+            <span class="gc-art gc-cards"><span class="mini-card">A<i>♠</i></span><span class="mini-card red">K<i>♥</i></span></span>
+            <span class="gc-name pixel">Blackjack</span>
+            <span class="gc-desc">Beat the dealer to 21.</span>
+          </button>
+          <button class="game-card" data-game="snake">
+            <span class="gc-art gc-snake"><span class="mini-snake" data-glyph="snake"></span></span>
+            <span class="gc-name pixel">Snake</span>
+            <span class="gc-desc">Eat. Grow. Don't bite yourself.</span>
+          </button>
         </div>
-        <!-- /CONTENT AREA -->
-        
-        
-        <!-- JAVASCRIPTS -->
-        <script type="text/javascript" src="assets/js/plugins.js"></script>
-        <script type="text/javascript" src="assets/js/main.js"></script>
-   
-   
-    </body> 
-    
-    
+      </div>
+      <div class="game-stage" id="game-stage" hidden></div>
+    </div>
+  </section>
+
+  <!-- Contact -->
+  <section class="win lq" id="win-contact" data-lq="win" role="dialog" aria-modal="true" aria-labelledby="t-contact" hidden>
+    <header class="win-bar">
+      <span class="win-icon" style="--c:#f3b52e"></span>
+      <h2 class="pixel" id="t-contact">Contact</h2>
+      <button class="win-close" aria-label="Close" data-close><span class="px-x"></span></button>
+    </header>
+    <div class="win-body contact">
+      <div class="handle glass">
+        <img src="assets/head.png" alt="" width="28" height="28" />
+        <span class="mono">@anshumansarda</span>
+      </div>
+      <ul class="socials" id="socials">
+        <li><a class="soc lq" data-lq="soc" style="--brand:#0a66c2" href="https://www.linkedin.com/in/anshumansarda" target="_blank" rel="noopener" aria-label="LinkedIn"><span class="soc-ico" data-glyph="linkedin"></span><span class="soc-label mono">LinkedIn</span></a></li>
+        <li><a class="soc lq" data-lq="soc" style="--brand:#e1306c" href="https://www.instagram.com/unshusarda" target="_blank" rel="noopener" aria-label="Instagram"><span class="soc-ico" data-glyph="instagram"></span><span class="soc-label mono">Instagram</span></a></li>
+        <li><a class="soc lq" data-lq="soc" style="--brand:#1f2328" href="https://github.com/anshumansarda" target="_blank" rel="noopener" aria-label="GitHub"><span class="soc-ico" data-glyph="github"></span><span class="soc-label mono">GitHub</span></a></li>
+        <!-- Not live yet: replace href="#" and remove aria-disabled / is-soon when ready -->
+        <li><a class="soc lq is-soon" data-lq="soc" style="--brand:#111" href="#" aria-disabled="true" aria-label="X (coming soon)"><span class="soc-ico" data-glyph="x"></span><span class="soc-label mono">soon</span></a></li>
+        <li><a class="soc lq is-soon" data-lq="soc" style="--brand:#1db954" href="#" aria-disabled="true" aria-label="Spotify (coming soon)"><span class="soc-ico" data-glyph="spotify"></span><span class="soc-label mono">soon</span></a></li>
+        <li><a class="soc lq is-soon" data-lq="soc" style="--brand:#ff0033" href="#" aria-disabled="true" aria-label="YouTube (coming soon)"><span class="soc-ico" data-glyph="youtube"></span><span class="soc-label mono">soon</span></a></li>
+        <li><a class="soc lq is-soon" data-lq="soc" style="--brand:#6b6964" href="#" aria-disabled="true" aria-label="Email (coming soon)"><span class="soc-ico" data-glyph="mail"></span><span class="soc-label mono">soon</span></a></li>
+      </ul>
+      <p class="contact-note">LinkedIn is the easiest way to reach me. I reply, eventually.</p>
+    </div>
+  </section>
+
+  <script type="module" src="js/main.js"></script>
+</body>
 </html>
