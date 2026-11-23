@@ -237,7 +237,7 @@ export function initGlobe() {
     return `<div class="trip-photo">${photo}</div>
       <div class="trip-meta">
         <b class="pixel">${t.country}</b>
-        <span class="mono">${[t.place, t.when].filter(Boolean).join(" · ") || "dates soon"}</span>
+        ${[t.place, t.when].filter(Boolean).length ? `<span class="mono">${[t.place, t.when].filter(Boolean).join(" · ")}</span>` : ""}
         ${t.note ? `<p>${t.note}</p>` : ""}
       </div>`;
   }

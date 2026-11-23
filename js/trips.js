@@ -3,7 +3,7 @@
 //   country name shown on the card (also what "X countries so far" counts)
 //   place   optional town or city
 //   lat/lon where the pin sits
-//   when    optional, e.g. "spring 2024" (cards say "dates soon" when empty)
+//   when    optional, e.g. "spring 2024"
 //   art     pixel postcard from js/landmarks.js, used until there's a photo
 //   photo   path to a real photo in assets/trips/ (replaces the pixel postcard)
 export const TRIPS = [
