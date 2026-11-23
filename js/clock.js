@@ -26,30 +26,95 @@ function gearPath(r, teeth, depth) {
   return "M" + pts.map((p) => p[0].toFixed(1) + " " + p[1].toFixed(1)).join("L") + "Z";
 }
 
-// x, y, radius, teeth, colour. Same tooth size everywhere so they look like they mesh.
+// A small, honest gear train. Every gear moves on the escapement's tick, and
+// meshing gears turn the opposite way at the ratio of their teeth.
+//   seconds wheel (yellow): one turn a minute, its red tooth tracks the second hand
+//   pinion (green): driven by the seconds wheel, 14:6 faster
+//   escape wheel (red): jumps one tooth per tick
+//   pinion (blue): driven by the escape wheel, 11:8 faster
+const DEPTH = 8;
 const GEARS = [
-  { x: 44, y: 50, r: 40, n: 14, c: "#f3b52e", dir: 1 },
-  { x: 206, y: 40, r: 23, n: 8, c: "#3e7bf0", dir: -1 },
-  { x: 204, y: 198, r: 31, n: 11, c: "#ea4a3b", dir: -1 },
-  { x: 34, y: 204, r: 18, n: 6, c: "#2f9e5b", dir: 1 },
+  { id: "sec", x: 44, y: 50, r: 40, n: 14, c: "#f3b52e" },
+  { id: "p1", r: 18, n: 6, c: "#2f9e5b", mesh: "sec", at: -25 },
+  { id: "esc", x: 204, y: 198, r: 31, n: 11, c: "#ea4a3b" },
+  { id: "p2", r: 23, n: 8, c: "#3e7bf0", mesh: "esc", at: 155 },
 ];
+const byId = Object.fromEntries(GEARS.map((g) => [g.id, g]));
+GEARS.forEach((g) => {
+  if (!g.mesh) return;
+  const m = byId[g.mesh];
+  const a = (g.at * Math.PI) / 180, d = m.r + g.r + DEPTH;
+  g.x = m.x + Math.cos(a) * d;
+  g.y = m.y + Math.sin(a) * d;
+  // phase so a tooth of the driver sits in a gap of this gear
+  const s1 = 360 / m.n, s2 = 360 / g.n;
+  g.ratio = -m.n / g.n;
+  g.phase = (g.at + 180 - 0.25 * s2) + (g.at - 0.75 * s1) * (m.n / g.n);
+  m.phase = m.phase || 0;
+});
+
+let balance = null, dayNight = null;
 
 function buildGears() {
   const g = $("#gears");
   GEARS.forEach((d) => {
     const grp = document.createElementNS(NS, "g");
-    grp.setAttribute("transform", `translate(${d.x} ${d.y})`);
+    grp.setAttribute("transform", `translate(${d.x.toFixed(1)} ${d.y.toFixed(1)})`);
     const spin = document.createElementNS(NS, "g");
     spin.innerHTML = `
-      <path d="${gearPath(d.r, d.n, 8)}" fill="${d.c}" stroke="#161614" stroke-width="3" stroke-linejoin="round"/>
+      <path d="${gearPath(d.r, d.n, DEPTH)}" fill="${d.c}" stroke="#161614" stroke-width="3" stroke-linejoin="round"/>
       <circle r="${d.r * 0.55}" fill="none" stroke="rgba(0,0,0,.18)" stroke-width="3"/>
       ${[0, 1, 2, 3].map((i) => `<rect x="${-3}" y="${-d.r * 0.75}" width="6" height="${d.r * 0.3}" fill="rgba(0,0,0,.2)" transform="rotate(${i * 90})"/>`).join("")}
       <circle r="${Math.max(5, d.r * 0.24)}" fill="#161614"/>
-      <circle r="${Math.max(2.5, d.r * 0.12)}" fill="${d.c}"/>`;
+      <circle r="${Math.max(2.5, d.r * 0.12)}" fill="${d.c}"/>
+      ${d.id === "sec" ? `<rect x="-3" y="${-d.r + 1}" width="6" height="${d.r * 0.5}" fill="#ea4a3b" stroke="#161614" stroke-width="1.5"/>` : ""}`;
     grp.appendChild(spin);
     g.appendChild(grp);
     d.el = spin;
   });
+
+  // balance wheel (top right): swings through zero on every tick, the clock's heartbeat
+  const bal = document.createElementNS(NS, "g");
+  bal.setAttribute("transform", "translate(208 34)");
+  let spiral = "M0 0";
+  for (let i = 1; i <= 36; i++) {
+    const a = i * 0.45, rr = 1.5 + i * 0.3;
+    spiral += `L${(Math.cos(a) * rr).toFixed(1)} ${(Math.sin(a) * rr).toFixed(1)}`;
+  }
+  bal.innerHTML = `
+    <circle r="27" fill="#161614" transform="translate(3 3)"/>
+    <circle r="27" fill="#ecebe5" stroke="#161614" stroke-width="3"/>
+    <g class="bal-swing">
+      <circle r="20" fill="none" stroke="#b9b6ae" stroke-width="6"/>
+      <circle r="20" fill="none" stroke="#161614" stroke-width="1.5"/>
+      <circle r="23" fill="none" stroke="#161614" stroke-width="1.5"/>
+      <circle r="17" fill="none" stroke="#161614" stroke-width="1.5"/>
+      ${[0, 120, 240].map((a) => `<rect x="-2" y="-18" width="4" height="16" fill="#161614" transform="rotate(${a})"/>`).join("")}
+      ${[60, 180, 300].map((a) => `<rect x="-3.5" y="-24" width="7" height="7" fill="#f3b52e" stroke="#161614" stroke-width="1.5" transform="rotate(${a})"/>`).join("")}
+    </g>
+    <path class="bal-spring" d="${spiral}" fill="none" stroke="#3e7bf0" stroke-width="1.5"/>
+    <circle r="4" fill="#ea4a3b" stroke="#161614" stroke-width="1.5"/>`;
+  g.appendChild(bal);
+  balance = { swing: bal.querySelector(".bal-swing"), spring: bal.querySelector(".bal-spring") };
+
+  // day/night disc (bottom left): sun on top at noon, moon on top at midnight
+  const dn = document.createElementNS(NS, "g");
+  dn.setAttribute("transform", "translate(32 208)");
+  const px = (cx, cy, rows, col) => rows.map((row, j) => [...row].map((ch, i) => ch === "#" ? `<rect x="${cx + i * 3}" y="${cy + j * 3}" width="3.1" height="3.1" fill="${col}"/>` : "").join("")).join("");
+  dn.innerHTML = `
+    <circle r="27" fill="#161614" transform="translate(3 3)"/>
+    <g class="dn-disc">
+      <path d="M-26 0A26 26 0 0 1 26 0Z" fill="#8fb8ff"/>
+      <path d="M-26 0A26 26 0 0 0 26 0Z" fill="#26304f"/>
+      ${px(-6, -20, [".##.", "####", "####", ".##."], "#f3b52e")}
+      ${px(-6, 8, [".##.", "##..", "##..", ".##."], "#fffdf7")}
+      <rect x="10" y="10" width="3" height="3" fill="#fffdf7"/><rect x="-15" y="15" width="3" height="3" fill="#fffdf7"/>
+      <rect x="-26" y="-1.5" width="52" height="3" fill="#161614"/>
+      <circle r="26" fill="none" stroke="#161614" stroke-width="3"/>
+    </g>
+    <path d="M-5 -34h10l-5 8z" fill="#ea4a3b" stroke="#161614" stroke-width="1.5"/>`;
+  g.appendChild(dn);
+  dayNight = dn.querySelector(".dn-disc");
 }
 
 function buildTicks() {
@@ -74,10 +139,11 @@ export function initClock() {
   buildTicks();
 
   let open = false, pinned = false, raf = 0, hideTimer = 0;
-  let introStart = 0, gearSpin = 0, lastT = 0;
+  let introStart = 0, lastT = 0;
   const INTRO = reduced ? 1 : 1400;
 
   const ease = (t) => 1 - Math.pow(1 - t, 3);
+  const backOut = (t) => { const c = 2.2; return 1 + (c + 1) * Math.pow(t - 1, 3) + c * Math.pow(t - 1, 2); };
 
   function targetAngles(now) {
     const ms = now.getMilliseconds();
@@ -105,17 +171,32 @@ export function initClock() {
     hands.m.setAttribute("transform", `rotate(${a.m} ${C} ${C})`);
     hands.s.setAttribute("transform", `rotate(${a.s} ${C} ${C})`);
 
-    // gears: race during the wind-up, then tick along with the seconds
+    // gears: race during the wind-up, then move only on the tick
     const dt = Math.min(64, t - (lastT || t));
     lastT = t;
-    const boost = p < 1 ? (1 - e) * 1.4 : 0;
-    gearSpin += dt * (0.012 + boost);
-    const tick = now.getSeconds() + (now.getMilliseconds() < 160 ? now.getMilliseconds() / 160 : 1);
-    GEARS.forEach((g) => {
-      const ratio = 14 / g.n; // smaller gears turn faster
-      const ang = g.dir * ratio * (gearSpin + tick * 6);
-      g.el.setAttribute("transform", `rotate(${ang.toFixed(2)})`);
-    });
+    const wind = (1 - e) * 720; // wind-up: gears spin into place with the hands
+    const ms = now.getMilliseconds();
+    // a tick that snaps forward and settles, like a real escapement
+    const snap = ms < 140 ? backOut(ms / 140) : 1;
+    const secs = now.getSeconds() + snap;            // 0..60 in steps
+    const ticks = Math.floor(now.getTime() / 1000) - 1 + snap; // ever-increasing
+    const ang = {
+      sec: secs * 6 - wind,
+      esc: (ticks % 11) * (360 / 11) - wind * 1.6,
+    };
+    ang.p1 = ang.sec * byId.p1.ratio + byId.p1.phase;
+    ang.p2 = ang.esc * byId.p2.ratio + byId.p2.phase;
+    GEARS.forEach((g) => g.el.setAttribute("transform", `rotate(${ang[g.id].toFixed(2)})`));
+
+    // balance: swings through zero on every tick
+    const ph = (now.getTime() % 2000) / 2000;
+    const swing = Math.sin(ph * Math.PI * 2) * 150 * (p < 1 ? 1 + (1 - e) : 1);
+    balance.swing.setAttribute("transform", `rotate(${swing.toFixed(1)})`);
+    balance.spring.setAttribute("transform", `rotate(${(swing * 0.25).toFixed(1)}) scale(${(1 + Math.cos(ph * Math.PI * 2) * 0.06).toFixed(3)})`);
+
+    // day / night disc
+    const hrs = now.getHours() + now.getMinutes() / 60;
+    dayNight.setAttribute("transform", `rotate(${((hrs - 12) * 15 * e).toFixed(2)})`);
 
     digital.textContent = now.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit", second: "2-digit", hour12: false });
   }

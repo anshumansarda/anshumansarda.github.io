@@ -3,17 +3,21 @@ import { initLiquid } from "./liquid.js";
 import { initClock } from "./clock.js";
 import { initZodiac } from "./zodiac.js";
 import { initDJ } from "./dj.js";
+import { initSettings, onSettings, speed } from "./settings.js";
+import { initAbout } from "./about.js";
 
 const $ = (s, r = document) => r.querySelector(s);
 const $$ = (s, r = document) => [...r.querySelectorAll(s)];
 const reduced = matchMedia("(prefers-reduced-motion: reduce)").matches;
 const finePointer = matchMedia("(hover: hover) and (pointer: fine)").matches;
 
+initSettings();
 paintGlyphs();
 initLiquid();
 initClock();
 initZodiac();
 initDJ();
+initAbout();
 
 /* ---------------- clock + year ---------------- */
 const clock = $("#clock");
@@ -127,13 +131,28 @@ function walkTo(x) {
   const dist = Math.abs(x - walkerX);
   if (dist < 2) return;
   walker.classList.toggle("left", x < walkerX);
-  walker.style.setProperty("--wdur", `${Math.min(1.1, 0.25 + dist / 520)}s`);
+  const dur = Math.min(1.1, 0.25 + dist / 520) / speed();
+  walker.style.setProperty("--wdur", `${dur}s`);
   walker.style.setProperty("--wx", `${x}px`);
   walker.classList.add("walking");
   walkerX = x;
   clearTimeout(walkTimer);
-  walkTimer = setTimeout(() => walker.classList.remove("walking"), Math.min(1100, 250 + (dist / 520) * 1000));
+  walkTimer = setTimeout(() => walker.classList.remove("walking"), dur * 1000);
 }
+
+// Chaos mode (Settings): the walker wanders around on its own
+let wander = 0;
+function setWander(on) {
+  clearInterval(wander);
+  if (!on || reduced) return;
+  wander = setInterval(() => {
+    if (openWin || document.hidden) return;
+    const half = $(".stage").offsetWidth / 2 - 60;
+    walkTo((Math.random() * 2 - 1) * Math.max(40, half));
+  }, 900);
+}
+onSettings((p) => setWander(p.speed === "chaos"));
+setWander(document.documentElement.dataset.speed === "chaos");
 function folderOffset(folder) {
   const stage = $(".stage").getBoundingClientRect();
   const r = folder.getBoundingClientRect();
@@ -217,10 +236,16 @@ function route() {
     showWin(el);
   }
   if (win === "games") showGame(sub);
+  if (win === "map" && !globeLoaded) {
+    globeLoaded = true;
+    import("./globe.js").then((m) => m.initGlobe());
+  }
 }
+let globeLoaded = false;
 addEventListener("hashchange", route);
 
 function showWin(el) {
+  if (lastOrigin && `win-${lastOrigin.dataset.open}` !== el.id) lastOrigin = null;
   openWin = el;
   el.hidden = false;
   scrim.hidden = false;
@@ -318,7 +343,7 @@ addEventListener("keydown", (e) => {
     return;
   }
   if (!openWin && !e.metaKey && !e.ctrlKey && !e.altKey) {
-    const map = { 1: "about", 2: "games", 3: "contact" };
+    const map = { 1: "about", 2: "work", 3: "games", 4: "map", 5: "contact", 6: "settings" };
     if (map[e.key]) {
       const f = folders.find((x) => x.dataset.open === map[e.key]);
       f.click();

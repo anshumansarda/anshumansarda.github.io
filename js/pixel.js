@@ -35,6 +35,115 @@ function disc(size, knock = []) {
   return rows.map((r) => r.join(""));
 }
 
+
+// A round gear: body disc, square teeth, hole in the middle.
+function gearGlyph(size, teeth) {
+  const c = (size - 1) / 2, rows = [];
+  for (let y = 0; y < size; y++) {
+    let s = "";
+    for (let x = 0; x < size; x++) {
+      const dx = x - c, dy = y - c, r = Math.hypot(dx, dy);
+      const a = (Math.atan2(dy, dx) + Math.PI * 2) % (Math.PI * 2);
+      const onTooth = Math.floor((a / (Math.PI * 2)) * teeth * 2 + 0.5) % 2 === 0;
+      const fill = (r <= size * 0.34 || (r <= size / 2 - 0.1 && onTooth)) && r > size * 0.13;
+      s += fill ? "#" : ".";
+    }
+    rows.push(s);
+  }
+  return rows;
+}
+
+// Multi-colour pixel art: each character maps to a colour in the palette, '.' is empty.
+export function pixelArt(rows, palette) {
+  const w = Math.max(...rows.map((r) => r.length));
+  const h = rows.length;
+  const paths = {};
+  rows.forEach((row, y) => {
+    let x = 0;
+    while (x < row.length) {
+      const ch = row[x];
+      if (ch !== "." && palette[ch]) {
+        let len = 1;
+        while (x + len < row.length && row[x + len] === ch) len++;
+        paths[ch] = (paths[ch] || "") + `M${x} ${y}h${len}v1h-${len}z`;
+        x += len;
+      } else x++;
+    }
+  });
+  const body = Object.entries(paths).map(([ch, d]) => `<path d="${d}" fill="${palette[ch]}"/>`).join("");
+  return `<svg viewBox="0 0 ${w} ${h}" shape-rendering="crispEdges" aria-hidden="true" focusable="false">${body}</svg>`;
+}
+
+// Alternate walkers for the Settings folder. Each faces right.
+export const AVATARS = {
+  cat: {
+    pal: { k: "#161614", o: "#f39a3b", d: "#c9701f", w: "#fffdf7", p: "#ef8a9a" },
+    rows: [
+      "................k...k.",
+      "...............kok.kok",
+      "...............koookok",
+      ".kk............koooook",
+      "kook...........kwkowko",
+      "kok............koooook",
+      "kok.............kopok.",
+      ".kok.kkkkkkkkkkkkooook",
+      "..kkooooooooooooooook.",
+      "..kooodooooodoooooook.",
+      "..koooooooooooooooook.",
+      "..kooodooooodooooook..",
+      "..kooooooooooooooook..",
+      "...kok.kok....kok.kok.",
+      "...kok.kok....kok.kok.",
+      "...kkk.kkk....kkk.kkk.",
+    ],
+  },
+  robot: {
+    pal: { k: "#161614", g: "#b9b6ae", l: "#e4e2dc", b: "#3e7bf0", w: "#fffdf7", r: "#ea4a3b", y: "#f3b52e" },
+    rows: [
+      ".......rr.......",
+      ".......kk.......",
+      "...kkkkkkkkkk...",
+      "..kllllllllllk..",
+      "..klbbbbbbbblk..",
+      "..klbwbbbbwblk..",
+      "..klbbbbbbbblk..",
+      "..kllllllllllk..",
+      "...kkkkkkkkkk...",
+      "......kggk......",
+      ".kkkkkkkkkkkkkk.",
+      "kgklllllllllkgk.",
+      "kgkllyyllrrlkgk.",
+      "kgklllllllllkgk.",
+      "kgklllllllllkgk.",
+      "kkkkkkkkkkkkkkk.",
+      "...kgggk.kgggk..",
+      "...kgggk.kgggk..",
+      "...kgggk.kgggk..",
+      "..kkkkkk.kkkkkk.",
+    ],
+  },
+  ghost: {
+    pal: { k: "#161614", w: "#fffdf7", s: "#dcd9d0", p: "#ef8a9a" },
+    rows: [
+      ".....kkkkkk.....",
+      "...kkwwwwwwkk...",
+      "..kwwwwwwwwwwk..",
+      ".kwwwwwwwwwwwwk.",
+      ".kwwwkkwwwwkkwk.",
+      ".kwwwkkwwwwkkwk.",
+      "kwwwwwwwwwwwwwwk",
+      "kwwwwpwwwwwwpwwk",
+      "kwwwwwwwkkwwwwwk",
+      "kwwwwwwwwwwwwwwk",
+      "kswwwwwwwwwwwwsk",
+      "ksswwwwwwwwwwssk",
+      "kssswwwwwwwwsssk",
+      "kssskssskssskssk",
+      "kkk.kkk.kkk.kkk.",
+    ],
+  },
+};
+
 function range(a, b) { const o = []; for (let i = a; i <= b; i++) o.push(i); return o; }
 
 const X16 = (() => {
@@ -254,6 +363,181 @@ export const GLYPHS = {
     "..############..",
     "................",
     "................",
+  ],
+  briefcase: [
+    "................",
+    "................",
+    ".....######.....",
+    ".....#....#.....",
+    "################",
+    "################",
+    "################",
+    "################",
+    "#######..#######",
+    "#######..#######",
+    "################",
+    "################",
+    "################",
+    "################",
+    "................",
+    "................",
+  ],
+  globe: [
+    ".....######.....",
+    "...##..##..##...",
+    "..#...#..#...#..",
+    ".#...#....#...#.",
+    ".#...#....#...#.",
+    "################",
+    "#....#....#....#",
+    "#....#....#....#",
+    "#....#....#....#",
+    "#....#....#....#",
+    "################",
+    ".#...#....#...#.",
+    ".#...#....#...#.",
+    "..#...#..#...#..",
+    "...##..##..##...",
+    ".....######.....",
+  ],
+  gear: gearGlyph(16, 8),
+  music: [
+    "................",
+    "..........####..",
+    "......########..",
+    "......######.#..",
+    "......##.....#..",
+    "......##.....#..",
+    "......##.....#..",
+    "......##.....#..",
+    "......##...###..",
+    "......##..####..",
+    "...#####..####..",
+    "..######...##...",
+    "..######........",
+    "...####.........",
+    "................",
+    "................",
+  ],
+  moon: [
+    "....####....",
+    "..####......",
+    ".####.......",
+    ".###........",
+    "####........",
+    "####........",
+    "####........",
+    "####.......#",
+    ".####.....##",
+    ".#####...###",
+    "..########..",
+    "....####....",
+  ],
+  bolt: [
+    "......####..",
+    ".....####...",
+    "....####....",
+    "...####.....",
+    "..#########.",
+    "......####..",
+    ".....####...",
+    "....####....",
+    "...###......",
+    "..##........",
+    ".#..........",
+    "............",
+  ],
+  speaker: [
+    "............",
+    ".....#......",
+    "....##...#..",
+    "...###....#.",
+    "#####..#..#.",
+    "#####...#.#.",
+    "#####...#.#.",
+    "#####..#..#.",
+    "...###....#.",
+    "....##...#..",
+    ".....#......",
+    "............",
+  ],
+  cursor: [
+    "#...........",
+    "##..........",
+    "###.........",
+    "####........",
+    "#####.......",
+    "######......",
+    "#######.....",
+    "########....",
+    "#####.......",
+    "##.###......",
+    "#..###......",
+    "....##......",
+  ],
+  cloud: [
+    "............",
+    "............",
+    "....####....",
+    "...######...",
+    "..########..",
+    ".##########.",
+    "############",
+    "############",
+    ".##########.",
+    "............",
+    "............",
+    "............",
+  ],
+  sliders: [
+    "............",
+    "..##........",
+    "..##........",
+    "############",
+    "..##........",
+    "..##........",
+    "........##..",
+    "........##..",
+    "############",
+    "........##..",
+    "........##..",
+    "............",
+  ],
+  person: [
+    "....####....",
+    "...######...",
+    "...######...",
+    "...######...",
+    "....####....",
+    "............",
+    "..########..",
+    ".##########.",
+    ".##########.",
+    ".##########.",
+    ".##########.",
+    "............",
+  ],
+  drop: [
+    "....##....",
+    "....##....",
+    "...####...",
+    "...####...",
+    "..######..",
+    ".########.",
+    ".##.#####.",
+    ".##.#####.",
+    "..######..",
+    "...####...",
+  ],
+  pin: [
+    "..####..",
+    ".######.",
+    "###..###",
+    "###..###",
+    ".######.",
+    ".######.",
+    "..####..",
+    "...##...",
   ],
   snake: [
     "..............",

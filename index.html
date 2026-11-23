@@ -4,7 +4,7 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
   <title>Anshuman Sarda</title>
-  <meta name="description" content="Anshuman Sarda builds websites and has fun doing it. Three folders: about, games, contact." />
+  <meta name="description" content="Anshuman Sarda builds websites and has fun doing it. Six folders: about, work, games, map, contact and settings." />
   <meta name="theme-color" content="#f2f1ec" />
   <!-- link previews (WhatsApp, iMessage, Slack, X…) need absolute URLs -->
   <meta property="og:type" content="website" />
@@ -26,6 +26,8 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600&family=Geist+Mono:wght@400;500;700&family=Silkscreen:wght@400;700&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="css/style.css" />
+  <!-- apply the saved theme before first paint so 3 AM mode doesn't flash -->
+  <script>try{var p=JSON.parse(localStorage.getItem("as:settings")||"{}"),h=new Date().getHours();if(p.theme==="night"||(p.theme==="auto"&&(h>=22||h<6)))document.documentElement.dataset.theme="night";}catch(e){}</script>
 </head>
 <body class="is-loading">
   <!-- SVG filters for the liquid glass refraction (filled in by js/liquid.js) -->
@@ -81,16 +83,14 @@
     </header>
 
     <section class="hero">
-      <h1 class="pixel hero-name" aria-label="Anshuman Sarda">
-        <span>Anshuman</span> <span>Sarda</span>
-      </h1>
-      <p class="hero-sub">builds websites for the fun of it. pick a folder.</p>
+      <h1 class="pixel hero-name">Pick a folder</h1>
     </section>
 
     <div class="stage" aria-hidden="true">
       <div class="walker" id="walker">
         <div class="walker-flip">
           <img src="assets/sprite.png" alt="" class="sprite" width="133" height="384" />
+          <span class="avatar-alt" id="avatar-alt"></span>
         </div>
         <span class="sprite-shadow"></span>
       </div>
@@ -105,7 +105,17 @@
           <span class="f-front lq" data-lq="folder"><span class="f-sheen"></span><span class="f-glyph" data-glyph="smile"></span></span>
         </span>
         <span class="f-ground"></span>
-        <span class="f-label pixel"><kbd>1</kbd> About me</span>
+        <span class="f-label pixel">About me</span>
+      </button>
+      <button class="folder" data-open="work" style="--c:#2f9e5b;--c2:#1f7542;--ct:#23804a">
+        <span class="f-body">
+          <span class="f-back"></span>
+          <span class="f-paper f-paper-1"><i></i><i></i><i></i></span>
+          <span class="f-paper f-paper-2"><i></i><i></i></span>
+          <span class="f-front lq" data-lq="folder"><span class="f-sheen"></span><span class="f-glyph" data-glyph="briefcase"></span></span>
+        </span>
+        <span class="f-ground"></span>
+        <span class="f-label pixel">Work</span>
       </button>
       <button class="folder" data-open="games" style="--c:#ea4a3b;--c2:#b42d22;--ct:#cf3a2c">
         <span class="f-body">
@@ -115,7 +125,17 @@
           <span class="f-front lq" data-lq="folder"><span class="f-sheen"></span><span class="f-glyph" data-glyph="pad"></span></span>
         </span>
         <span class="f-ground"></span>
-        <span class="f-label pixel"><kbd>2</kbd> Games</span>
+        <span class="f-label pixel">Games</span>
+      </button>
+      <button class="folder" data-open="map" style="--c:#f07a2e;--c2:#bd561a;--ct:#c8601f">
+        <span class="f-body">
+          <span class="f-back"></span>
+          <span class="f-paper f-paper-1"><i></i><i></i><i></i></span>
+          <span class="f-paper f-paper-2"><i></i><i></i></span>
+          <span class="f-front lq" data-lq="folder"><span class="f-sheen"></span><span class="f-glyph" data-glyph="globe"></span></span>
+        </span>
+        <span class="f-ground"></span>
+        <span class="f-label pixel">Map</span>
       </button>
       <button class="folder" data-open="contact" style="--c:#f3b52e;--c2:#c98a0f;--ct:#b07a08">
         <span class="f-body">
@@ -125,7 +145,17 @@
           <span class="f-front lq" data-lq="folder"><span class="f-sheen"></span><span class="f-glyph" data-glyph="mail"></span></span>
         </span>
         <span class="f-ground"></span>
-        <span class="f-label pixel"><kbd>3</kbd> Contact</span>
+        <span class="f-label pixel">Contact</span>
+      </button>
+      <button class="folder" data-open="settings" style="--c:#8d8a82;--c2:#625f58;--ct:#5e5b55">
+        <span class="f-body">
+          <span class="f-back"></span>
+          <span class="f-paper f-paper-1"><i></i><i></i><i></i></span>
+          <span class="f-paper f-paper-2"><i></i><i></i></span>
+          <span class="f-front lq" data-lq="folder"><span class="f-sheen"></span><span class="f-glyph" data-glyph="gear"></span></span>
+        </span>
+        <span class="f-ground"></span>
+        <span class="f-label pixel">Settings</span>
       </button>
     </nav>
 
@@ -148,24 +178,33 @@
       <div class="about-intro">
         <div>
           <p class="eyebrow mono">hello</p>
-          <h3 class="about-hi">Hi, I'm Anshuman.</h3>
-          <p class="lede">I build websites, mostly because it's fun. My favourite place to be is somewhere between a blank file and a thing that actually works.</p>
-          <p>I like the small stuff: a hover that feels right, type that sits well, a page that loads before you notice. This site is a good example. Three folders, a tiny version of me, and a few games because why not.</p>
+          <h3 class="about-hi">I'm Anshuman.</h3>
+          <p class="lede">I build websites because it's fun, and I haven't found a reason to stop.</p>
         </div>
-        <figure class="polaroid" tabindex="0">
-          <span class="photo"><img src="assets/me.jpg" alt="Anshuman Sarda, smiling, in a navy suit" loading="lazy" width="1024" height="1024" /></span>
-          <figcaption class="mono">the non-pixel version</figcaption>
-        </figure>
+        <button class="polaroid" id="polaroid" aria-pressed="false" aria-label="Flip the photo">
+          <span class="pol-inner">
+            <span class="pol-face pol-front">
+              <span class="photo"><img src="assets/me.jpg" alt="Anshuman Sarda, smiling, in a navy suit" loading="lazy" width="1024" height="1024" /></span>
+              <span class="pol-cap mono">the non-pixel version</span>
+            </span>
+            <span class="pol-face pol-back">
+              <span class="photo photo-px"><img src="assets/sprite.png" alt="" class="sprite" width="133" height="384" /></span>
+              <span class="pol-cap mono">the pixel version</span>
+            </span>
+          </span>
+          <span class="pol-hint mono">tap to flip</span>
+        </button>
       </div>
+
 
       <div class="about-grid">
         <section>
           <h4 class="mono">now</h4>
-          <p>Forward deployed engineer at <a class="ink-link" href="https://databook.com/" target="_blank" rel="noopener">Databook&nbsp;↗</a>. Building things with customers, and websites like this one on the side.</p>
+          <p>Forward deployed engineer at <a class="ink-link" href="https://databook.com/" target="_blank" rel="noopener">Databook&nbsp;↗</a>.</p>
         </section>
         <section>
           <h4 class="mono">from</h4>
-          <p>Grew up in Kolkata. Went to Birla High School, then Denison University in Ohio.</p>
+          <p>Grew up in Kolkata. College in Ohio, one semester in London. The full trail is in the Map folder.</p>
         </section>
       </div>
 
@@ -174,18 +213,8 @@
         <div>
           <h4 class="mono">sign</h4>
           <div class="sign-name"><span class="sign-glyph" data-glyph="pisces"></span><b>Pisces</b><span>feb 19 – mar 20</span></div>
-          <p>A March Pisces. Water sign, apparently a dreamer. It does explain the habit of starting side projects at 2am.</p>
+          <p>A March Pisces. Water sign, apparently a dreamer.</p>
         </div>
-      </section>
-
-      <section class="about-list">
-        <h4 class="mono">things i've done</h4>
-        <ol class="timeline">
-          <li><span class="tl-what">Founder, CodeYard</span><span class="tl-note">A small crew of coders building things together.</span></li>
-          <li><span class="tl-what">Technical head, Verity Today</span><span class="tl-note">Designed and built the site for a student newsletter read by 7,500+ people a month.</span></li>
-          <li><span class="tl-what">Video editor &amp; project lead, <a class="ink-link" href="https://www.youtube.com/@SinghinUSA" target="_blank" rel="noopener">Singh in USA&nbsp;↗</a></span><span class="tl-note">Edited for a 1M+ subscriber YouTube channel and ran the "Team Study Abroad" interviews.</span></li>
-          <li><span class="tl-what">Web development intern, 32Bytes</span><span class="tl-note">Where I first shipped code for someone other than me.</span></li>
-        </ol>
       </section>
 
       <section class="about-list">
@@ -199,6 +228,16 @@
           <li style="--ic:#ea4a3b"><span class="tag-ico" data-glyph="pad"></span>little games</li>
           <li style="--ic:#2f9e5b"><span class="tag-ico" data-glyph="fonts"></span>good fonts</li>
         </ul>
+      </section>
+
+      <section class="about-list dice" id="dice">
+        <button class="dice-btn" id="dice-btn" aria-label="Roll for a random fact">
+          <span class="die" id="die"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></span>
+        </button>
+        <div>
+          <h4 class="mono">roll for a fact</h4>
+          <p id="dice-fact" aria-live="polite">Tap the die.</p>
+        </div>
       </section>
 
       <section class="about-list dj">
@@ -246,6 +285,83 @@
             <g class="dj-arm dj-arm-r"><rect x="260" y="18" width="5" height="40" fill="#b9b6ae" stroke="#161614" stroke-width="1.5"/><rect x="256" y="56" width="12" height="9" fill="#3e7bf0" stroke="#161614" stroke-width="1.5"/><circle cx="262" cy="18" r="6" fill="#77746d" stroke="#161614" stroke-width="1.5"/></g>
             <circle class="dj-led" cx="140" cy="24" r="3" fill="#77746d"/>
           </svg>
+        </div>
+      </section>
+
+      <p class="about-out mono">the serious stuff is in <a href="#work">work →</a></p>
+    </div>
+  </section>
+
+  <!-- Work -->
+  <section class="win lq" id="win-work" data-lq="win" role="dialog" aria-modal="true" aria-labelledby="t-work" hidden>
+    <header class="win-bar">
+      <span class="win-icon" style="--c:#2f9e5b"></span>
+      <h2 class="pixel" id="t-work">Work</h2>
+      <button class="win-close" aria-label="Close" data-close><span class="px-x"></span></button>
+    </header>
+    <div class="win-body about work">
+      <p class="eyebrow mono">the serious folder</p>
+      <h3 class="about-hi">Work, school, and things I've built.</h3>
+
+      <section class="work-now">
+        <span class="work-now-tag pixel">now</span>
+        <div>
+          <h4 class="work-role">Forward deployed engineer</h4>
+          <p><a class="ink-link" href="https://databook.com/" target="_blank" rel="noopener">Databook&nbsp;↗</a>. Building with customers so the product fits how they actually work.</p>
+        </div>
+      </section>
+
+      <section class="about-list">
+        <h4 class="mono">experience</h4>
+        <ol class="timeline work-tl">
+          <li><span class="tl-what">Senior consultant, Red Frame Lab <span class="tl-where">Ohio</span></span><span class="tl-when mono">aug 2023 – may 2025</span><span class="tl-note">Data and automation projects for clients. Joined as a consultant and got promoted.</span></li>
+          <li><span class="tl-what">Private equity intern, DeBere Partners <span class="tl-where">London</span></span><span class="tl-when mono">feb – may 2024</span><span class="tl-note">Quant research: investor mapping for a Series B raise, DCF and LBO models, investment memos.</span></li>
+          <li><span class="tl-what">CTO, Denny Express</span><span class="tl-when mono">jan – dec 2023</span><span class="tl-note">Built a food delivery app with live tracking and automated dispatch. Raised $$$ in seed money.</span></li>
+          <li><span class="tl-what">Research analyst, Aditya Birla Capital <span class="tl-where">Kolkata</span></span><span class="tl-when mono">jun – aug 2023</span><span class="tl-note">Equity research on pharma and tech stocks, plus dashboards to keep track of it all.</span></li>
+          <li><span class="tl-what">Video editor &amp; project lead, <a class="ink-link" href="https://www.youtube.com/@SinghinUSA" target="_blank" rel="noopener">Singh in USA&nbsp;↗</a></span><span class="tl-when mono">youtube · 1M+ subs</span><span class="tl-note">Edited for a 1M+ subscriber channel and ran the "Team Study Abroad" interviews.</span></li>
+          <li><span class="tl-what">Technical head, Verity Today</span><span class="tl-when mono">newsletter</span><span class="tl-note">Designed and built the site for a student newsletter read by 7,500+ people a month.</span></li>
+          <li><span class="tl-what">Founder, CodeYard</span><span class="tl-when mono">side project</span><span class="tl-note">A small crew of coders building things together.</span></li>
+          <li><span class="tl-what">Web development intern, 32Bytes</span><span class="tl-when mono">first gig</span><span class="tl-note">Where I first shipped code for someone other than me.</span></li>
+        </ol>
+      </section>
+
+      <section class="about-list">
+        <h4 class="mono">education</h4>
+        <div class="edu">
+          <article class="edu-card" style="--ec:#c8102e">
+            <span class="edu-crest pixel">D</span>
+            <div>
+              <h5>Denison University</h5>
+              <p class="edu-where mono">granville, ohio · graduated 2025</p>
+              <p>B.A. Computer Science &amp; B.A. Economics, a dual degree.</p>
+            </div>
+          </article>
+          <article class="edu-card" style="--ec:#1d3b8b">
+            <span class="edu-crest pixel">Q</span>
+            <div>
+              <h5>Queen Mary University of London</h5>
+              <p class="edu-where mono">london, uk · spring 2024</p>
+            </div>
+          </article>
+          <article class="edu-card" style="--ec:#f3b52e">
+            <span class="edu-crest pixel">B</span>
+            <div>
+              <h5>Birla High School</h5>
+              <p class="edu-where mono">kolkata, india</p>
+            </div>
+          </article>
+        </div>
+      </section>
+
+      <section class="about-list">
+        <h4 class="mono">projects &amp; things</h4>
+        <div class="proj">
+          <article><span class="proj-ico" style="--pc:#2f9e5b">$</span><h5>Pelosi tracker</h5><p>Scraped congressional trades and copied them. Beat the S&amp;P 500 by 16% over four months.</p></article>
+          <article><span class="proj-ico" style="--pc:#3e7bf0">%</span><h5>Fed Challenge 2024</h5><p>Led a team presenting monetary policy analysis at the Federal Reserve in D.C.</p></article>
+          <article><span class="proj-ico" style="--pc:#ea4a3b">2</span><h5>Pitch competition</h5><p>Runner-up at the Red Frame Lab startup program with Denny Express.</p></article>
+          <article><span class="proj-ico" style="--pc:#f07a2e">&gt;_</span><h5>Hackathons</h5><p>Represented Denison at hackathons at Denison, OWU, YSU and UTU.</p></article>
+          <article><span class="proj-ico" style="--pc:#8d8a82">?</span><h5>Econ research</h5><p>Studied China's real estate debt with Dr. Fadhel Kaboub, Summer 2022.</p></article>
+          <article><span class="proj-ico" style="--pc:#c98a0f">A+</span><h5>Tutor</h5><p>Taught econ and CS courses to 24+ students at Denison's ARC Center.</p></article>
         </div>
       </section>
 
@@ -301,6 +417,32 @@
     </div>
   </section>
 
+  <!-- Map -->
+  <section class="win lq" id="win-map" data-lq="win" role="dialog" aria-modal="true" aria-labelledby="t-map" hidden>
+    <header class="win-bar">
+      <span class="win-icon" style="--c:#f07a2e"></span>
+      <h2 class="pixel" id="t-map">Map</h2>
+      <button class="win-close" aria-label="Close" data-close><span class="px-x"></span></button>
+    </header>
+    <div class="win-body map">
+      <p class="games-note map-note">Places I've been. Drag to spin, tap a pin.</p>
+      <div class="globe-wrap" id="globe-wrap">
+        <div class="globe-box" id="globe-box">
+          <canvas class="globe" id="globe" width="200" height="200" aria-label="Spinning pixel globe with the countries I've visited highlighted" role="img"></canvas>
+          <div class="globe-pins" id="globe-pins"></div>
+        </div>
+        <div class="trip-card" id="trip-card" hidden></div>
+      </div>
+      <div class="map-legend mono">
+        <div class="map-legend-row">
+          <span><i class="lg-visited"></i>been there</span>
+          <span><i class="lg-land"></i>not yet</span>
+        </div>
+        <span class="map-count pixel" id="map-count"></span>
+      </div>
+    </div>
+  </section>
+
   <!-- Contact -->
   <section class="win lq" id="win-contact" data-lq="win" role="dialog" aria-modal="true" aria-labelledby="t-contact" hidden>
     <header class="win-bar">
@@ -317,13 +459,46 @@
         <li><a class="soc lq" data-lq="soc" style="--brand:#0a66c2" href="https://www.linkedin.com/in/anshumansarda" target="_blank" rel="noopener" aria-label="LinkedIn"><span class="soc-ico" data-glyph="linkedin"></span><span class="soc-label mono">LinkedIn</span></a></li>
         <li><a class="soc lq" data-lq="soc" style="--brand:#e1306c" href="https://www.instagram.com/unshusarda" target="_blank" rel="noopener" aria-label="Instagram"><span class="soc-ico" data-glyph="instagram"></span><span class="soc-label mono">Instagram</span></a></li>
         <li><a class="soc lq" data-lq="soc" style="--brand:#1f2328" href="https://github.com/anshumansarda" target="_blank" rel="noopener" aria-label="GitHub"><span class="soc-ico" data-glyph="github"></span><span class="soc-label mono">GitHub</span></a></li>
+        <li><a class="soc lq" data-lq="soc" style="--brand:#fa2d48" href="https://music.apple.com/profile/lilsarda" target="_blank" rel="noopener" aria-label="Apple Music"><span class="soc-ico" data-glyph="music"></span><span class="soc-label mono">Apple Music</span></a></li>
+        <li><a class="soc lq" data-lq="soc" style="--brand:#6b6964" href="mailto:anshumansarda17@gmail.com" aria-label="Email anshumansarda17@gmail.com"><span class="soc-ico" data-glyph="mail"></span><span class="soc-label mono">Email</span></a></li>
         <!-- Not live yet: replace href="#" and remove aria-disabled / is-soon when ready -->
-        <li><a class="soc lq is-soon" data-lq="soc" style="--brand:#111" href="#" aria-disabled="true" aria-label="X (coming soon)"><span class="soc-ico" data-glyph="x"></span><span class="soc-label mono">soon</span></a></li>
-        <li><a class="soc lq is-soon" data-lq="soc" style="--brand:#1db954" href="#" aria-disabled="true" aria-label="Spotify (coming soon)"><span class="soc-ico" data-glyph="spotify"></span><span class="soc-label mono">soon</span></a></li>
         <li><a class="soc lq is-soon" data-lq="soc" style="--brand:#ff0033" href="#" aria-disabled="true" aria-label="YouTube (coming soon)"><span class="soc-ico" data-glyph="youtube"></span><span class="soc-label mono">soon</span></a></li>
-        <li><a class="soc lq is-soon" data-lq="soc" style="--brand:#6b6964" href="#" aria-disabled="true" aria-label="Email (coming soon)"><span class="soc-ico" data-glyph="mail"></span><span class="soc-label mono">soon</span></a></li>
       </ul>
-      <p class="contact-note">LinkedIn is the easiest way to reach me. I reply, eventually.</p>
+      <a class="email-line mono" href="mailto:anshumansarda17@gmail.com">anshumansarda17@gmail.com</a>
+      <p class="contact-note">LinkedIn or email is the easiest way to reach me. I reply, eventually.</p>
+    </div>
+  </section>
+
+  <!-- Settings -->
+  <section class="win lq" id="win-settings" data-lq="win" role="dialog" aria-modal="true" aria-labelledby="t-settings" hidden>
+    <header class="win-bar">
+      <span class="win-icon" style="--c:#8d8a82"></span>
+      <h2 class="pixel" id="t-settings">Settings</h2>
+      <button class="win-close" aria-label="Close" data-close><span class="px-x"></span></button>
+    </header>
+    <div class="win-body settings" id="settings">
+      <div class="about-this glass-card">
+        <img src="assets/head.png" alt="" class="sprite" width="56" height="56" />
+        <div>
+          <h3 class="pixel">AnshumanOS</h3>
+          <p class="mono">version 6.0</p>
+        </div>
+      </div>
+      <p class="set-note">None of these settings are useful. All of them work.</p>
+      <div class="set-group" id="set-group"></div>
+      <div class="set-group set-actions">
+        <div class="set-row">
+          <span class="set-ico" style="--ic:#3e7bf0" data-glyph="bolt"></span>
+          <div class="set-text"><b>Software update</b><span id="upd-msg">Check whether there's a newer version of me.</span></div>
+          <button class="px-btn set-btn" id="upd-btn">Check</button>
+        </div>
+        <div class="set-row">
+          <span class="set-ico" style="--ic:#ea4a3b" data-glyph="gear"></span>
+          <div class="set-text"><b>Factory reset</b><span id="reset-msg">Put every setting back the way it was.</span></div>
+          <button class="px-btn set-btn" id="reset-btn">Reset</button>
+        </div>
+        <div class="reset-bar" id="reset-bar" hidden><span></span></div>
+      </div>
     </div>
   </section>
 
