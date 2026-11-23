@@ -45,22 +45,28 @@ export function mount(root) {
     if (busy) return;
     busy = true;
     btns.forEach((b) => (b.disabled = true));
-    msg.textContent = "…";
+    msg.textContent = "Up it goes…";
+    const beats = matchMedia("(prefers-reduced-motion: reduce)").matches ? [] :
+      [setTimeout(() => (msg.textContent = "…"), 900), setTimeout(() => (msg.textContent = "and…"), 1700)];
     const result = crypto.getRandomValues(new Uint8Array(1))[0] % 2 ? "H" : "T";
     // spin several full turns, then land on the right face
-    const spins = 5 + Math.floor(Math.random() * 3);
+    const spins = 11 + Math.floor(Math.random() * 3);
     const current = ((angle % 360) + 360) % 360;
     const target = result === "H" ? 0 : 180;
     angle += spins * 360 + ((target - current + 360) % 360);
     const anim = coin.animate(
       [
-        { transform: coin.style.transform || "rotateY(0deg)" },
-        { transform: `translateY(-90px) rotateY(${angle - spins * 180}deg)`, offset: 0.45 },
-        { transform: `rotateY(${angle}deg)` },
+        // toss up fast, hang at the top while it spins, then slow right down before it lands
+        { transform: `${coin.style.transform || "rotateY(0deg)"}`, offset: 0 },
+        { transform: `translateY(-110px) rotateY(${angle - spins * 360 + spins * 150}deg) scale(1.08)`, offset: 0.28 },
+        { transform: `translateY(-120px) rotateY(${angle - spins * 360 + spins * 290}deg) scale(1.1)`, offset: 0.62 },
+        { transform: `translateY(-30px) rotateY(${angle - 200}deg) scale(1.03)`, offset: 0.86 },
+        { transform: `translateY(0) rotateY(${angle}deg)`, offset: 1 },
       ],
-      { duration: matchMedia("(prefers-reduced-motion: reduce)").matches ? 1 : 1300, easing: "cubic-bezier(.3,.7,.4,1)" }
+      { duration: matchMedia("(prefers-reduced-motion: reduce)").matches ? 1 : 2400, easing: "cubic-bezier(.25,.6,.35,1)" }
     );
     anim.onfinish = () => {
+      beats.forEach(clearTimeout);
       coin.style.transform = `rotateY(${angle}deg)`;
       flips++;
       const won = call === result;
