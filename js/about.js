@@ -33,6 +33,15 @@ export function initAbout() {
       .observe(player.querySelector(".stats") || player);
   }
 
+  // work timeline: entries slide in as they scroll into view
+  const xps = document.querySelectorAll(".xp");
+  if (xps.length) {
+    const io = new IntersectionObserver((es) => es.forEach((e) => {
+      if (e.isIntersecting) { e.target.classList.add("is-in"); io.unobserve(e.target); }
+    }), { threshold: 0.2 });
+    xps.forEach((x) => io.observe(x));
+  }
+
   // dice
   const btn = document.getElementById("dice-btn");
   const die = document.getElementById("die");

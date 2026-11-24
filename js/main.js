@@ -343,7 +343,7 @@ addEventListener("keydown", (e) => {
     return;
   }
   if (!openWin && !e.metaKey && !e.ctrlKey && !e.altKey) {
-    const map = { 1: "about", 2: "work", 3: "games", 4: "map", 5: "contact", 6: "settings" };
+    const map = { 1: "about", 2: "work", 3: "map", 4: "games", 5: "contact", 6: "settings" };
     if (map[e.key]) {
       const f = folders.find((x) => x.dataset.open === map[e.key]);
       f.click();
